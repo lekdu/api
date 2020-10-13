@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'data',
+    'django_lookup_table_rating_widget',
 ]
 
 MIDDLEWARE = [

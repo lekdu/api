@@ -7,12 +7,22 @@ class Company(models.Model):
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
     
+    def __str__(self):
+        return "%s" % self.name
+    
 class Review(models.Model):
-    rating = models.IntegerField()
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    )
+    rating = models.IntegerField(choices=RATING_CHOICES)
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=10000)
     ipAddress = models.CharField(max_length=15)
-    date = models.DateField(default=datetime.date.today)
-    company = models.OneToOneField(Company, on_delete=models.CASCADE)
-    reviewer = models.OneToOneField(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.date.today)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, default=1, related_name="company")
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name="reviewer")
     
