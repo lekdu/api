@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+'''
+DEVELOPED BY EDUARDO CABEZAS
+14/10/2020
+'''
+
+'''
+Company model
+'''
 class Company(models.Model):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=100)
@@ -10,14 +18,10 @@ class Company(models.Model):
     def __str__(self):
         return "%s" % self.name
     
+'''
+User Review Model
+'''
 class Review(models.Model):
-    RATING_CHOICES = (
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-    )
     rating = models.IntegerField()
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=10000)

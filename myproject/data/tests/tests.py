@@ -4,7 +4,9 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from .forms import ReviewForm
 
-# models test
+'''
+    Review model test
+'''
 class ReviewTest(TestCase):
 
     def create_review(self, title="only a test", summary="yes, this is only a test"):
@@ -23,6 +25,9 @@ class ReviewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn(w.title, resp.content)
 
+'''
+    Company model test
+'''
 class CompanyTest(TestCase):
 
     def create_company(self, name="only a test", address="yes, this is only a test",phone="0996782313"):

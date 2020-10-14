@@ -11,10 +11,18 @@ from rest_framework.authtoken.models import Token
 import socket
 import requests
 
+'''
+DEVELOPED BY EDUARDO CABEZAS
+14/10/2020
+'''
+
+
+'''
+API THAT SHOWS ONLY USER REVIEWS
+REQUIRES USER TOKEN AUTHENTICATION
+IF USER IS SUPER USER, IT WILL SHOW ALL REVIEWS
+'''
 class ReviewViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticated]
     
@@ -25,10 +33,11 @@ class ReviewViewSet(viewsets.ModelViewSet):
         else:
             return Review.objects.all().filter(reviewer=user)
 
+'''
+API THAT SAVES A NEW REVIEW
+REQUIRES USER TOKEN AUTHENTICATION
+'''
 class ReviewSave(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticated]
     
@@ -43,6 +52,9 @@ class ReviewSave(viewsets.ModelViewSet):
         return r
 
     
+'''
+SHOW NEW REVIEW FORM
+'''
 @login_required
 def new_review(request):
     if request.method == 'POST':
