@@ -22,7 +22,7 @@ class Review(models.Model):
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=10000)
     ipAddress = models.CharField(max_length=15)
-    date = models.DateTimeField(default=datetime.date.today)
+    date = models.DateTimeField(default=datetime.datetime.now())
     company = models.ForeignKey(Company, on_delete=models.CASCADE, default=1, related_name="company")
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name="reviewer")
     

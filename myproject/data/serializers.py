@@ -18,5 +18,5 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     reviewer = UserSerializer(many=False, read_only=True)
     class Meta:
         model = Review
-        fields = ['title', 'summary','ipAddress','rating','company','reviewer']
+        fields = ['title', 'summary','ipAddress','rating','company','reviewer','date']
         
