@@ -18,7 +18,7 @@ class Review(models.Model):
         (4, '4'),
         (5, '5'),
     )
-    rating = models.IntegerField(choices=RATING_CHOICES)
+    rating = models.IntegerField()
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=10000)
     ipAddress = models.CharField(max_length=15)
