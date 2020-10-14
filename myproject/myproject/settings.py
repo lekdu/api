@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_lookup_table_rating_widget',
     'django_nose',
     'test_without_migrations',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
