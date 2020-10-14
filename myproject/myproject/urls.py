@@ -20,6 +20,7 @@ from data import views
 
 router = routers.DefaultRouter()
 router.register(r'reviews', views.ReviewViewSet, basename='Review')
+router.register(r'reviewsSave', views.ReviewSave, basename='ReviewSave')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

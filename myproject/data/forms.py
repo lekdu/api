@@ -12,7 +12,7 @@ class ReviewForm(ModelForm):
             (5, '5'),
         )
         model = Review
-        fields = ['rating', 'title', 'summary', 'ipAddress' , 'company']
+        fields = ['rating', 'title', 'summary' , 'company']
         widgets = {
             'summary': Textarea(attrs={'cols': 80, 'rows': 20}),
             'rating':RadioSelect(choices=RATING_CHOICES)   
