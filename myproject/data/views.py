@@ -15,6 +15,7 @@ import coreschema
 from rest_framework import schemas
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate, login, logout as do_logout
+import json
 '''
 DEVELOPED BY EDUARDO CABEZAS
 14/10/2020
@@ -26,7 +27,6 @@ API THAT SHOWS ONLY USER REVIEWS
 REQUIRES USER TOKEN AUTHENTICATION
 IF USER IS SUPER USER, IT WILL SHOW ALL REVIEWS
 '''
-@swagger_auto_schema(operation_description="partial_update description override", responses={404: 'slug not found'})
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -66,7 +66,7 @@ def new_review(request):
         host = socket.gethostname()
         user = request.user
         token, created = Token.objects.get_or_create(user=user)
-        r = requests.get("http://localhost:8000/reviewsSave/",data=request.POST,headers={'Authorization': "Token "+str(token)})
+        r = requests.get("http://localhost:8000/api/reviewsSave/",data=request.POST,headers={'Authorization': "Token "+str(token)})
     form = ReviewForm()
     return render(request, 'form.html', {'form': form})
     
@@ -81,6 +81,15 @@ def ini(request):
             login(request, user)
             return redirect("/review/new/")
     return render(request, 'login.html')
+
+def myReviews(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect("/")
+    token, created = Token.objects.get_or_create(user=user)
+    r = requests.get("http://localhost:8000/api/reviews/",headers={'Authorization': "Token "+str(token)})
+    print(r)
+    return render(request, 'myreviews.html', {'reviews':''})
 
 def logout(request):
     # Finalizamos la sesión

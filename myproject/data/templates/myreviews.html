@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}My Reviews{% endblock %}
 
 {% block content %}
 	<a href="/review/new" class="btn btn-primary">NEW REVIEW</a>
 	<a href="/review/my" class="btn btn-primary">MY REVIEWS</a>
 	<a href="/logout" class="btn btn-danger">LOGOUT</a>
-    <h2>New review</h2>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-primary">Save</button>
-    </form>
-{% endblock %}
+	
+{% endblock content %}
+
