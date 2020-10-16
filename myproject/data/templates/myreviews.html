@@ -5,6 +5,27 @@
 	<a href="/review/new" class="btn btn-primary">NEW REVIEW</a>
 	<a href="/review/my" class="btn btn-primary">MY REVIEWS</a>
 	<a href="/logout" class="btn btn-danger">LOGOUT</a>
-	
+	<h3>My Reviews</h3>
+	{% if user.is_superuser %}
+	<form method="POST">
+		{% csrf_token %}
+		<select name="user">
+			{% for u in users %}
+				<option value="{{u.id}}">{{u.username}}</option>
+			{% endfor %}
+		</select>
+		<input class="btn btn-primary" type="submit" value="Filter"/>
+		<a class="btn btn-primary" href="/review/my/">Clear</a>
+	</form>
+	{% endif %}
+	{% for rev in reviews %}
+		<table width="100%" class="tb-{{rev.reviewer.id}}" class="table">
+			<tr><td colspan="2"><b>{{rev.title}}</b></td></tr>
+			<tr><td colspan="2" title="{{rev.company.name}} - {{rev.company.address}} - {{rev.company.phone}}"><b>COMPANY:</b> {{rev.company.name}}</td></tr>
+			<tr><td title="{{rev.reviewer.username}} - {{rev.reviewer.email}} - {{rev.ip}}"><b>BY:</b> {{rev.reviewer.username}}</td><td class="text-right">{{rev.date}}</td></tr>
+			<tr><td colspan="2"><b>{{rev.summary}}</b></td></tr>
+		</table>
+		<p>----------</p>
+	{% endfor %}
 {% endblock content %}
 

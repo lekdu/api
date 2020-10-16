@@ -26,6 +26,7 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 router.register(r'reviews', views.ReviewViewSet, basename='Review')
+router.register(r'reviewsF', views.ReviewFilterViewSet, basename='ReviewF')
 router.register(r'reviewsSave', views.ReviewSave, basename='ReviewSave')
 
 

@@ -39,6 +39,18 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return Review.objects.all().filter(reviewer=user)
 
 '''
+API THAT SHOWS ONLY USER REVIEWS
+REQUIRES USER TOKEN AUTHENTICATION
+'''
+class ReviewFilterViewSet(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Review.objects.all().filter(reviewer=user)
+
+'''
 API THAT SAVES A NEW REVIEW
 REQUIRES USER TOKEN AUTHENTICATION
 '''
@@ -70,6 +82,9 @@ def new_review(request):
     form = ReviewForm()
     return render(request, 'form.html', {'form': form})
     
+'''
+MAIN PAGE VIEW
+'''
 def ini(request):
     if request.user.is_authenticated:
         return redirect("/review/new/")
@@ -82,15 +97,31 @@ def ini(request):
             return redirect("/review/new/")
     return render(request, 'login.html')
 
+'''
+LIST MY REVIEWS
+'''
 def myReviews(request):
     user = request.user
     if not request.user.is_authenticated:
         return redirect("/")
     token, created = Token.objects.get_or_create(user=user)
-    r = requests.get("http://localhost:8000/api/reviews/",headers={'Authorization': "Token "+str(token)})
-    print(r)
-    return render(request, 'myreviews.html', {'reviews':''})
+    if request.POST.get("user") is not None:
+        if user.is_superuser:
+            usid = request.POST.get("user")
+            usr = User.objects.filter(id=usid).first()
+            token, created = Token.objects.get_or_create(user=usr)
+            r = requests.get("http://localhost:8000/api/reviewsF/",headers={'Authorization': "Token "+str(token)})
+        else:
+            r = requests.get("http://localhost:8000/api/reviews/",headers={'Authorization': "Token "+str(token)})
+    else:
+        r = requests.get("http://localhost:8000/api/reviews/",headers={'Authorization': "Token "+str(token)})
+    rev = r.json()
+    users = User.objects.all()
+    return render(request, 'myreviews.html', {'reviews':rev,'users':users})
 
+'''
+LOGOUT
+'''
 def logout(request):
     # Finalizamos la sesión
     do_logout(request)
