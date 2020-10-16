@@ -15,7 +15,7 @@ ITS REQUIRED ON REVIEW SERIALIZER
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        ReadOnlyField = ['name', 'address', 'phone']
+        fields = ['name', 'address', 'phone']
 
 '''
 USER MODEL SERIALIZER
@@ -24,7 +24,7 @@ ITS REQUIRED ON REVIEW SERIALIZER
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        ReadOnlyField = ['username', 'email']
+        fields = ['username', 'email']
 
 '''
 USER REVIEW SERIALIZER
@@ -34,5 +34,5 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     reviewer = UserSerializer(many=False, read_only=True)
     class Meta:
         model = Review
-        ReadOnlyField = ['title', 'summary','ipAddress','rating','company','reviewer','date']
+        fields = ['title', 'summary','ipAddress','rating','company','reviewer','date']
         
