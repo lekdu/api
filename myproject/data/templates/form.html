@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	<a href="/logout" class="btn btn-danger">LOGOUT</a>
+	<a href="/logout" class="btn btn-primary">MY REVIEWS</a>
+	<a href="/review/new" class="btn btn-primary">NEW REVIEW</a>
     <h2>New review</h2>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}

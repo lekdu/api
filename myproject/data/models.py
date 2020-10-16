@@ -16,7 +16,7 @@ class Company(models.Model):
     phone = models.CharField(max_length=10)
     
     def __str__(self):
-        return "%s" % self.name
+        return self.name
     
 '''
 User Review Model
@@ -29,4 +29,5 @@ class Review(models.Model):
     date = models.DateTimeField(default=datetime.datetime.now())
     company = models.ForeignKey(Company, on_delete=models.CASCADE, default=1, related_name="company")
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name="reviewer")
+    
     

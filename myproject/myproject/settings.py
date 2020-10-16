@@ -134,13 +134,17 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Use nose to run all tests
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-# Tell nose to measure coverage on the 'foo' and 'bar' apps
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=data',
+    '--cover-html',
+    '--cover-html-dir=htmlcov',
+    '--cover-package=cart',
+
 ]
 
-TEST_WITHOUT_MIGRATIONS_COMMAND = 'django_nose.management.commands.test.Command'
+SWAGGER_SETTINGS = {
+    "DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator",
+    "DEFAULT_AUTO_SCHEMA_CLASS": "path.to.CamelCaseOperationIDAutoSchema",
+}

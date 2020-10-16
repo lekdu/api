@@ -4,13 +4,17 @@ from rest_framework import permissions
 from data.serializers import ReviewSerializer
 from .forms import ReviewForm
 from .models import Review, Company
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 import socket
 import requests
-
+import coreapi
+import coreschema
+from rest_framework import schemas
+from drf_yasg.utils import swagger_auto_schema
+from django.contrib.auth import authenticate, login, logout as do_logout
 '''
 DEVELOPED BY EDUARDO CABEZAS
 14/10/2020
@@ -22,6 +26,7 @@ API THAT SHOWS ONLY USER REVIEWS
 REQUIRES USER TOKEN AUTHENTICATION
 IF USER IS SUPER USER, IT WILL SHOW ALL REVIEWS
 '''
+@swagger_auto_schema(operation_description="partial_update description override", responses={404: 'slug not found'})
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -64,3 +69,21 @@ def new_review(request):
         r = requests.get("http://localhost:8000/reviewsSave/",data=request.POST,headers={'Authorization': "Token "+str(token)})
     form = ReviewForm()
     return render(request, 'form.html', {'form': form})
+    
+def ini(request):
+    if request.user.is_authenticated:
+        return redirect("/review/new/")
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/review/new/")
+    return render(request, 'login.html')
+
+def logout(request):
+    # Finalizamos la sesión
+    do_logout(request)
+    # Redireccionamos a la portada
+    return redirect('/')
